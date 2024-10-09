@@ -1,0 +1,35 @@
+﻿@model IEnumerable<ASP_NET_MVC.Models.User>
+
+@{
+    ViewData["Title"] = "Users List";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Users</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Registration Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.FirstName</td>
+                    <td>@user.LastName</td>
+                    <td>@user.Email</td>
+                    <th>@user.PhoneNumber</th>
+                    <td>@user.RegistrationDate.ToShortDateString()</td>
+                    <td><a href="@Url.Action("Details", "User", new { id = user.Id })">Details</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a class="btn btn-primary" href="@Url.Action("Create", "User")">Add User</a>
+</div>
