@@ -2,34 +2,53 @@
 
 @{
     ViewData["Title"] = "Users List";
+    var userName = Context.Session.GetString("FirstName");
+    var userRole = Context.Session.GetString("Role");
 }
 
-<div class="text-center">
-    <h1 class="display-4">Users</h1>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Phone Number</th>
-                <th>Registration Date</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var user in Model)
-            {
-                <tr>
-                    <td>@user.FirstName</td>
-                    <td>@user.LastName</td>
-                    <td>@user.Email</td>
-                    <th>@user.PhoneNumber</th>
-                    <td>@user.RegistrationDate.ToShortDateString()</td>
-                    <td><a href="@Url.Action("Details", "User", new { id = user.Id })">Details</a></td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    <a class="btn btn-primary" href="@Url.Action("Create", "User")">Add User</a>
-</div>
+@if (!string.IsNullOrEmpty(userName))
+{
+    <h2>Welcome, @userName!</h2>
+    @if (string.Equals(userRole, "Admin", StringComparison.OrdinalIgnoreCase))
+    {
+        <p>You have admin rights.</p>
+        <p>User list:</p>
+        <div class="text-center">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Registration Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>@user.FirstName</td>
+                            <td>@user.LastName</td>
+                            <td>@user.Email</td>
+                            <td>@user.Role</td>
+                            <td>@user.RegistrationDate.ToShortDateString()</td>
+                            <td><a href="@Url.Action("Details", "User", new { id = user.Id })">Details</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <p>You are a regular user.</p>
+    }
+}
+else
+{
+    <h2>Welcome!</h2>
+}
+<a class="btn btn-danger" href="@Url.Action("Create", "User")">Register new account</a>
+<a class="btn btn-success" href="@Url.Action("Login", "User")">Log-in</a>

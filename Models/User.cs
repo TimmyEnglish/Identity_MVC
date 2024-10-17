@@ -16,10 +16,11 @@
         [RegularExpression(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", ErrorMessage = "Email must be in the format '.....@.......'")]
         public string? Email { get; set; }
 
-        [Required(ErrorMessage = "Phone number is required.")]
-        [RegularExpression(@"^\d{3} \d{3} \d{2} \d{2}$", ErrorMessage = "Phone must be in the format '___ ___ __ __'")]
-        public string? PhoneNumber { get; set; }
-
+        [Required(ErrorMessage = "Password is required.")]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
         public DateTime RegistrationDate { get; set; }
+        public string Role { get; set; } = "User"; // Default role
     }
 }
+
